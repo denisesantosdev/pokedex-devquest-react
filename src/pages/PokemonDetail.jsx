@@ -18,8 +18,10 @@ const PokemonDetail = () => {
                 <div>
                     <h2>abilities</h2>
                     <ul>
-                        <li>ability 1</li>
-                        <li>ability 2</li>
+                        <li>
+                            <h3>name</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic eum ipsum soluta a laudantium magnam porro laborum. Distinctio reiciendis quisquam enim dolor ex odio, nihil mollitia! In et ipsum exercitationem?</p>
+                        </li>
                     </ul>
                 </div>
             </section>
