@@ -24,25 +24,23 @@ const Home = () => {
     const fetchPokemons = async () => {
       const result = await getPokemons(pokemonOffset, pokemonLimit);
 
-      /* setPokemons(() => {
-          results.map((item) => {
-            return {
-              id: item.id,
-              abilities: item.abilities,
-              moves: item.moves,
-              name: item.name,
-              types: item.types,
-              sprites: {
-                front_default: item.front_default,
-              },
-            };
-          });
-        }); */
-      setPokemons(result);
+      const transformedData = result.map((item) => {
+        return {
+          id: item.id,
+          abilities: item.abilities,
+          moves: item.moves,
+          name: item.name,
+          types: item.types,
+          sprites: {
+            front_default: item.front_default,
+          },
+        };
+      });
+
+      setPokemons(transformedData);
     };
 
     fetchPokemons();
-    // loadMore()
   }, [pokemonLimit, pokemonOffset]);
 
   function loadMore() {
