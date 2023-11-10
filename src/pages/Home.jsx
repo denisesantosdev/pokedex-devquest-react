@@ -8,19 +8,20 @@ async function getPokemons(id) {
 
 const Home = () => {
   const [pokemons, setPokemons] = useState([]);
+  const pokemonLimit = 11
 
   useEffect(() => {
     const fetchPokemons = async () => {
       try {
         const pokemonPromises = [];
 
-        for (let i = 1; i < 11; i++) {
-          pokemonPromises.push(getPokemons(i));
+        for (let i = 1; i < pokemonLimit; i++) {
+          pokemonPromises.push(getPokemons(i)); 
         }
   
         const results = await Promise.all(pokemonPromises);
   
-        setPokemons(() => {
+        /* setPokemons(() => {
           results.map((item) => {
             return {
               id: item.id,
@@ -33,7 +34,8 @@ const Home = () => {
               },
             };
           });
-        });
+        }); */
+        setPokemons(results)
       } catch {
         console.error('Error fetching data:', error);
       }
