@@ -8,7 +8,7 @@ async function getPokemons(id) {
 
 const Home = () => {
   const [pokemons, setPokemons] = useState([]);
-  const pokemonLimit = 11
+  let pokemonLimit = 11
 
   useEffect(() => {
     const fetchPokemons = async () => {
@@ -43,10 +43,15 @@ const Home = () => {
     };
 
     fetchPokemons();
+    loadMore()
     
   }, []);
 
-  console.log(pokemons);
+  function loadMore() {
+    pokemonLimit += 11
+    console.log(pokemonLimit);
+    console.log(pokemons); 
+  }
 
   return (
     <>
@@ -93,7 +98,7 @@ const Home = () => {
             <h2>Pokemon name</h2>
           </div>
         </a>
-        <button>Carregar mais</button>
+        <button onClick={()=>loadMore()}>Carregar mais</button>
       </main>
     </>
   );
