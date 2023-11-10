@@ -1,27 +1,30 @@
 import { useEffect, useState } from "react";
 
-async function getPokemons(id) {
-  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+async function getPokemons(offset, limit) {
+  const pokemonPromises = [];
 
-  return await response.json();
+  for (let i = offset; i < limit; i++) {
+    pokemonPromises.push(
+      fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
+        .then((response) => response.json())
+        .then((data) => data)
+        .catch((error) => console.error(error))
+    );
+  }
+
+  return await Promise.all(pokemonPromises);
 }
 
 const Home = () => {
   const [pokemons, setPokemons] = useState([]);
-  let pokemonLimit = 11
+  const [pokemonLimit, setPokemonLimit] = useState(11);
+  const [pokemonOffset, setPokemonOffset] = useState(1);
 
   useEffect(() => {
     const fetchPokemons = async () => {
-      try {
-        const pokemonPromises = [];
+      const result = await getPokemons(pokemonOffset, pokemonLimit);
 
-        for (let i = 1; i < pokemonLimit; i++) {
-          pokemonPromises.push(getPokemons(i)); 
-        }
-  
-        const results = await Promise.all(pokemonPromises);
-  
-        /* setPokemons(() => {
+      /* setPokemons(() => {
           results.map((item) => {
             return {
               id: item.id,
@@ -35,27 +38,22 @@ const Home = () => {
             };
           });
         }); */
-        setPokemons(results)
-      } catch {
-        console.error('Error fetching data:', error);
-      }
-      
+      setPokemons(result);
     };
 
     fetchPokemons();
-    loadMore()
-    
-  }, []);
+    // loadMore()
+  }, [pokemonLimit, pokemonOffset]);
 
   function loadMore() {
-    pokemonLimit += 11
-    console.log(pokemonLimit);
-    console.log(pokemons); 
+    setPokemonLimit((prev) => prev + 10);
+    //setPokemonOffset((prev) => prev + 10);
   }
 
   return (
     <>
       <header>
+        {console.log(pokemons)}
         <img
           src="./src/assets/logo.svg"
           alt="Pokemon logo"
@@ -98,7 +96,7 @@ const Home = () => {
             <h2>Pokemon name</h2>
           </div>
         </a>
-        <button onClick={()=>loadMore()}>Carregar mais</button>
+        <button onClick={() => loadMore()}>Carregar mais</button>
       </main>
     </>
   );
