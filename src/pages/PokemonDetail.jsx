@@ -1,8 +1,8 @@
 import { Link, useParams } from "react-router-dom";
 
-const PokemonDetail = () => {
+const PokemonDetail = (props) => {
   const { pokemon } = useParams();
-
+console.log(props.pokemonsData);
   return (
     <main>
       <div>

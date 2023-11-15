@@ -1,59 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-async function getPokemons(offset, limit) {
-  const pokemonPromises = [];
-
-  for (let i = offset; i < limit; i++) {
-    pokemonPromises.push(
-      fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
-        .then((response) => response.json())
-        .then((data) => data)
-        .catch((error) => console.error(error))
-    );
-  }
-
-  return await Promise.all(pokemonPromises);
-}
-
-const Home = () => {
-  const [pokemons, setPokemons] = useState([]);
+const Home = (props) => {
   const [filteredPokemons, setFilteredPokemon] = useState([]);
   const [showButton, setShowButton] = useState(true);
-  const [pokemonLimit, setPokemonLimit] = useState(11);
-  const [pokemonOffset, setPokemonOffset] = useState(1);
 
   useEffect(() => {
-    const fetchPokemons = async () => {
-      try {
-        const result = await getPokemons(pokemonOffset, pokemonLimit);
-
-        const transformedData = result.map((item) => {
-          return {
-            id: item.id,
-            abilities: item.abilities,
-            moves: item.moves,
-            name: item.name,
-            types: item.types.map((type) => {
-              return type.type.name;
-            }),
-            image: item.sprites.front_default,
-          };
-        });
-
-        setPokemons(transformedData);
-        setFilteredPokemon(transformedData);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchPokemons();
-  }, [pokemonLimit, pokemonOffset]);
+    setFilteredPokemon(props.pokemonsData);
+  }, [props.pokemonsData]);
 
   function loadMore() {
-    setPokemonLimit((prev) => prev + 10);
-    //setPokemonOffset((prev) => prev + 10);
+    props.setPokemonLimit((prev) => prev + 10);
   }
 
   function generateOptions() {
@@ -86,16 +43,16 @@ const Home = () => {
   }
 
   function filterType(event) {
-    const chosenType = event.target.value.toLowerCase();
+    const selectedType = event.target.value.toLowerCase();
 
-    const filteredPokemons = pokemons.filter((item) => {
-      if (chosenType === "todos") {
+    const filteredPokemons = props.pokemonsData.filter((item) => {
+      if (selectedType === "todos") {
         return item;
       }
-      return item.types.find((type) => type === chosenType);
+      return item.types.find((type) => type === selectedType);
     });
 
-    if (chosenType !== "todos") {
+    if (selectedType !== "todos") {
       setShowButton(false);
     } else {
       setShowButton(true);
@@ -107,8 +64,6 @@ const Home = () => {
   return (
     <>
       <header>
-        {/*  {console.log(pokemons)} */}
-        {/*  {console.log(chosenType)} */}
         <img
           src="./src/assets/logo.svg"
           alt="Pokemon logo"
@@ -146,7 +101,8 @@ const Home = () => {
         </div>
         {filteredPokemons.map((pokemon) => {
           return (
-            <Link to={`/${pokemon.name}`}
+            <Link
+              to={`/${pokemon.name}`}
               href="#"
               key={pokemon.id}>
               <div>
