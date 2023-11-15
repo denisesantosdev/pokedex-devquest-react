@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 async function getPokemons(offset, limit) {
   const pokemonPromises = [];
@@ -145,7 +146,7 @@ const Home = () => {
         </div>
         {filteredPokemons.map((pokemon) => {
           return (
-            <a
+            <Link to={`/${pokemon.name}`}
               href="#"
               key={pokemon.id}>
               <div>
@@ -158,7 +159,7 @@ const Home = () => {
                   alt="Pokemon image"
                 />
               </div>
-            </a>
+            </Link>
           );
         })}
 

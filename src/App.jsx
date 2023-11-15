@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css'
 
 import  Home  from './pages/Home'
@@ -8,7 +8,12 @@ function App() {
 
   return (
     <>
-      <Home></Home>
+     <BrowserRouter>
+      <Routes>
+        <Route exact path='/' element={<Home/>}/>
+        <Route exact path='/:pokemon' element={<PokemonDetail/>}/>
+      </Routes>
+     </BrowserRouter>
     </>
   )
 }
