@@ -2,17 +2,26 @@ import { Link, useParams } from "react-router-dom";
 
 const PokemonDetail = (props) => {
   const { pokemon } = useParams();
-console.log(props.pokemonsData);
+  console.log(props.pokemonsData);
+
+  const clickedPokemon = props.pokemonsData.find((item) => {
+    return item.name === pokemon;
+  });
+
+  //console.log(types);
+  const types = clickedPokemon.types.map((item,index) => {
+    return <p key={index}>{item}</p>;
+  });
   return (
     <main>
       <div>
-        <Link to={'/'}>Voltar</Link>
-        <h1>{pokemon}</h1>
+        <Link to={"/"}>Voltar</Link>
+        <h1>{clickedPokemon.name}</h1>
         <img
-          src=""
-          alt="Imagem do pokemon"
+          src={clickedPokemon.image}
+          alt={clickedPokemon.name}
         />
-        <p>Tipo</p>
+        <div>{types}</div>
       </div>
       <section>
         <div>
