@@ -20,8 +20,12 @@ function App() {
       const transformedData = pokemonData.map((item) => {
         return {
           id: item.id,
-          abilities: item.abilities,
-          moves: item.moves,
+          abilities: item.abilities.map(ability=>{
+            return ability.ability.name
+          }),
+          moves: item.moves.map(move=>{
+            return move.move.name
+          }),
           name: item.name,
           types: item.types.map((type) => {
             return type.type.name;

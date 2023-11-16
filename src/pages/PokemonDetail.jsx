@@ -1,17 +1,36 @@
 import { Link, useParams } from "react-router-dom";
+import { getAbility } from "../services/pokemon-ability-service";
+import { useEffect } from "react";
 
 const PokemonDetail = (props) => {
   const { pokemon } = useParams();
-  console.log(props.pokemonsData);
+  //console.log(props.pokemonsData);
 
   const clickedPokemon = props.pokemonsData.find((item) => {
     return item.name === pokemon;
   });
 
+  const abilityNames = clickedPokemon.abilities;
+  //console.log("abilityNames:", abilityNames);
+
+  useEffect(() => {
+    async function fetchAbility() {
+      const data = await getAbility(abilityNames);
+      console.log('data:', data)
+    }
+
+    fetchAbility();
+  }, []);
+
   //console.log(types);
-  const types = clickedPokemon.types.map((item,index) => {
+  const types = clickedPokemon.types.map((item, index) => {
     return <p key={index}>{item}</p>;
   });
+
+  const moves = clickedPokemon.moves.map((item, index) => {
+    return <li key={index}>{item}</li>;
+  });
+
   return (
     <main>
       <div>
@@ -25,11 +44,10 @@ const PokemonDetail = (props) => {
       </div>
       <section>
         <div>
-          <h2>moves</h2>
-          <ul>
-            <li>move 1</li>
-            <li>move 2</li>
-          </ul>
+          <h2>
+            moves <span>{moves.length}</span>
+          </h2>
+          <ul>{moves}</ul>
         </div>
         <div>
           <h2>abilities</h2>
