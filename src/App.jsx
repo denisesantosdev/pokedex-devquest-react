@@ -9,8 +9,10 @@ import PokemonDetail from "./pages/PokemonDetail";
 import { getPokemons } from "./services/pokemon-service";
 import { useEffect } from "react";
 
+import { PokemonProvider } from "./contexts/context-pokemon";
+
 function App() {
-  const [pokemons, setPokemons] = useState([]);
+  /* const [pokemons, setPokemons] = useState([]);
   const [pokemonLimit, setPokemonLimit] = useState(11);
 
   useEffect(() => {
@@ -38,29 +40,25 @@ function App() {
     }
 
     fetchPokemons();
-  }, [pokemonLimit]);
+  }, [pokemonLimit]); */
 
   return (
-      <BrowserRouter>
+    <BrowserRouter>
+      <PokemonProvider>
         <Routes>
           <Route
             exact
             path="/"
-            element={
-              <Home
-                pokemonsData={pokemons}
-                pokemonLimit={pokemonLimit}
-                setPokemonLimit={setPokemonLimit}
-              />
-            }
+            element={<Home />}
           />
           <Route
             exact
             path="/:pokemon"
-            element={<PokemonDetail pokemonsData={pokemons}/>}
+            element={<PokemonDetail />}
           />
         </Routes>
-      </BrowserRouter>
+      </PokemonProvider>
+    </BrowserRouter>
   );
 }
 

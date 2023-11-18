@@ -1,16 +1,21 @@
-import { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+import { pokemonContext } from "../contexts/context-pokemon";
+
 const Home = (props) => {
+  const { pokemons, pokemonLimit, setPokemonLimit } =
+    useContext(pokemonContext);
+  //console.log(pokemons, pokemonLimit);
   const [filteredPokemons, setFilteredPokemon] = useState([]);
   const [showButton, setShowButton] = useState(true);
 
   useEffect(() => {
-    setFilteredPokemon(props.pokemonsData);
-  }, [props.pokemonsData]);
+    setFilteredPokemon(pokemons);
+  }, [pokemons]);
 
   function loadMore() {
-    props.setPokemonLimit((prev) => prev + 10);
+    setPokemonLimit((prev) => prev + 10);
   }
 
   function generateOptions() {
@@ -45,7 +50,7 @@ const Home = (props) => {
   function filterType(event) {
     const selectedType = event.target.value.toLowerCase();
 
-    const filteredPokemons = props.pokemonsData.filter((item) => {
+    const filteredPokemons = pokemons.filter((item) => {
       if (selectedType === "todos") {
         return item;
       }

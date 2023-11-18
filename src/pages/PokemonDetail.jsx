@@ -1,14 +1,38 @@
 import { Link, useParams } from "react-router-dom";
 import { getAbility } from "../services/pokemon-ability-service";
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
+import { pokemonContext } from "../contexts/context-pokemon";
 
-const PokemonDetail = (props) => {
+const PokemonDetail = () => {
   const { pokemon } = useParams();
-  //console.log(props.pokemonsData);
+  console.log(pokemon);
+  const [clickedPokemon, setClickedPokemon] = useState(
+    localStorage.getItem("clickedPokemon") === null 
+      ? []
+      : localStorage.getItem("clickedPokemon")
+  );
 
+  const { pokemons } = useContext(pokemonContext);
+  // console.log("pokemons:", pokemons);
+
+  useEffect(() => {
+    setClickedPokemon(
+      pokemons.find((item) => {
+        return item.name === pokemon; 
+      })
+    );
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("clickedPokemon", JSON.stringify(clickedPokemon));
+  }, []);
+
+  console.log(clickedPokemon);
+  /*
   const clickedPokemon = props.pokemonsData.find((item) => {
     return item.name === pokemon;
   });
+  //console.log('clickedPokemon:', clickedPokemon)
 
   const abilityNames = clickedPokemon.abilities;
   //console.log("abilityNames:", abilityNames);
@@ -29,11 +53,11 @@ const PokemonDetail = (props) => {
 
   const moves = clickedPokemon.moves.map((item, index) => {
     return <li key={index}>{item}</li>;
-  });
+  }); */
 
   return (
     <main>
-      <div>
+      {/* <div>
         <Link to={"/"}>Voltar</Link>
         <h1>{clickedPokemon.name}</h1>
         <img
@@ -63,7 +87,7 @@ const PokemonDetail = (props) => {
             </li>
           </ul>
         </div>
-      </section>
+      </section> */}
     </main>
   );
 };
