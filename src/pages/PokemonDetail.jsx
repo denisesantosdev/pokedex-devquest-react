@@ -4,74 +4,73 @@ import { useContext, useEffect, useState } from "react";
 import { pokemonContext } from "../contexts/context-pokemon";
 
 const PokemonDetail = () => {
+  const savedPokemon = JSON.parse(localStorage.getItem("clickedPokemon"));
+
   const { pokemon } = useParams();
-  console.log(pokemon);
-  const [clickedPokemon, setClickedPokemon] = useState(
-    localStorage.getItem("clickedPokemon") === null 
-      ? []
-      : localStorage.getItem("clickedPokemon")
-  );
+  // console.log(pokemon);
+  const [clickedPokemon, setClickedPokemon] = useState([]);
 
   const { pokemons } = useContext(pokemonContext);
-  // console.log("pokemons:", pokemons);
+  //console.log("pokemons:", pokemons);
 
   useEffect(() => {
     setClickedPokemon(
       pokemons.find((item) => {
-        return item.name === pokemon; 
-      })
+        return item.name === pokemon;
+      }) || savedPokemon
     );
-  }, []);
+  }, [pokemons]);
 
   useEffect(() => {
     localStorage.setItem("clickedPokemon", JSON.stringify(clickedPokemon));
-  }, []);
+  }, [clickedPokemon]);
 
-  console.log(clickedPokemon);
-  /*
-  const clickedPokemon = props.pokemonsData.find((item) => {
-    return item.name === pokemon;
-  });
-  //console.log('clickedPokemon:', clickedPokemon)
+  //console.log(clickedPokemon);
 
-  const abilityNames = clickedPokemon.abilities;
+  const abilityNames = clickedPokemon.abilities || [];
   //console.log("abilityNames:", abilityNames);
 
   useEffect(() => {
     async function fetchAbility() {
       const data = await getAbility(abilityNames);
-      console.log('data:', data)
+      //console.log('data:', data)
     }
 
     fetchAbility();
-  }, []);
+  }, [abilityNames]);
 
-  //console.log(types);
-  const types = clickedPokemon.types.map((item, index) => {
-    return <p key={index}>{item}</p>;
-  });
+  function displayTypes() {
+    const types = clickedPokemon.types || [];
+    console.log(types);
 
-  const moves = clickedPokemon.moves.map((item, index) => {
-    return <li key={index}>{item}</li>;
-  }); */
+    return types.map((item, index) => {
+      return <p key={index}>{item}</p>;
+    });
+  }
+
+  function displayMoves() {
+    const moves = clickedPokemon.moves || [];
+
+    return moves.map((item, index) => {
+      return <li key={index}>{item}</li>;
+    });
+  }
 
   return (
     <main>
-      {/* <div>
+      <div>
         <Link to={"/"}>Voltar</Link>
         <h1>{clickedPokemon.name}</h1>
         <img
           src={clickedPokemon.image}
           alt={clickedPokemon.name}
         />
-        <div>{types}</div>
+        <div>{displayTypes()}</div>
       </div>
       <section>
         <div>
-          <h2>
-            moves <span>{moves.length}</span>
-          </h2>
-          <ul>{moves}</ul>
+          <h2>moves</h2>
+          <ul>{displayMoves()}</ul>
         </div>
         <div>
           <h2>abilities</h2>
@@ -87,7 +86,7 @@ const PokemonDetail = () => {
             </li>
           </ul>
         </div>
-      </section> */}
+      </section>
     </main>
   );
 };
