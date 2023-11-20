@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { getAbility } from "../services/pokemon-ability-service";
 import { useContext, useEffect, useState } from "react";
 import { pokemonContext } from "../contexts/context-pokemon";
+import { Header } from "../components/header";
 
 const PokemonDetail = () => {
   const savedPokemon = JSON.parse(localStorage.getItem("clickedPokemon"));
@@ -33,7 +34,12 @@ const PokemonDetail = () => {
   useEffect(() => {
     async function fetchAbility() {
       const data = await getAbility(abilityNames);
-      //console.log('data:', data)
+      console.log("data:", data);
+
+      const descriptions = data.map((item) => {
+        return item.effect_entries;
+      });
+      console.log(descriptions);
     }
 
     fetchAbility();
@@ -41,7 +47,7 @@ const PokemonDetail = () => {
 
   function displayTypes() {
     const types = clickedPokemon.types || [];
-    console.log(types);
+    //console.log(types);
 
     return types.map((item, index) => {
       return <p key={index}>{item}</p>;
@@ -57,37 +63,41 @@ const PokemonDetail = () => {
   }
 
   return (
-    <main>
-      <div>
-        <Link to={"/"}>Voltar</Link>
-        <h1>{clickedPokemon.name}</h1>
-        <img
-          src={clickedPokemon.image}
-          alt={clickedPokemon.name}
-        />
-        <div>{displayTypes()}</div>
-      </div>
-      <section>
+    <>
+      <Header />
+      
+      <main>
         <div>
-          <h2>moves</h2>
-          <ul>{displayMoves()}</ul>
+          <Link to={"/"}>Voltar</Link>
+          <h1>{clickedPokemon.name}</h1>
+          <img
+            src={clickedPokemon.image}
+            alt={clickedPokemon.name}
+          />
+          <div>{displayTypes()}</div>
         </div>
-        <div>
-          <h2>abilities</h2>
-          <ul>
-            <li>
-              <h3>name</h3>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic
-                eum ipsum soluta a laudantium magnam porro laborum. Distinctio
-                reiciendis quisquam enim dolor ex odio, nihil mollitia! In et
-                ipsum exercitationem?
-              </p>
-            </li>
-          </ul>
-        </div>
-      </section>
-    </main>
+        <section>
+          <div>
+            <h2>moves</h2>
+            <ul>{displayMoves()}</ul>
+          </div>
+          <div>
+            <h2>abilities</h2>
+            <ul>
+              <li>
+                <h3>name</h3>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic
+                  eum ipsum soluta a laudantium magnam porro laborum. Distinctio
+                  reiciendis quisquam enim dolor ex odio, nihil mollitia! In et
+                  ipsum exercitationem?
+                </p>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </main>
+    </>
   );
 };
 

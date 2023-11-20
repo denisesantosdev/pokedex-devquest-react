@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { pokemonContext } from "../contexts/context-pokemon";
+import { Header } from "../components/header";
+import { PokemonCard } from "../components/PokemonCard";
 
 const Home = (props) => {
   const { pokemons, pokemonLimit, setPokemonLimit } =
@@ -68,32 +70,8 @@ const Home = (props) => {
 
   return (
     <>
-      <header>
-        <img
-          src="./src/assets/logo.svg"
-          alt="Pokemon logo"
-        />
-        <div>
-          <input
-            type="checkbox"
-            name=""
-            id=""
-          />
-        </div>
-      </header>
-      <section>
-        <div>
-          <label htmlFor="searchPokemon"></label>
-          <div>
-            <input
-              type="search"
-              id="searchPokemon"
-              placeholder="Pikachu"
-            />
-            <button>Search Pokemon</button>
-          </div>
-        </div>
-      </section>
+      <Header />
+
       <main>
         <div>
           <label htmlFor="pokemonType">Selecione tipo</label>
@@ -104,25 +82,17 @@ const Home = (props) => {
             {generateOptions()}
           </select>
         </div>
-        {filteredPokemons.map((pokemon) => {
-          return (
-            <Link
-              to={`/${pokemon.name}`}
-              href="#"
-              key={pokemon.id}>
-              <div>
-                <div>
-                  <span>#{pokemon.id}</span>
-                  <h2>{pokemon.name}</h2>
-                </div>
-                <img
-                  src={pokemon.image}
-                  alt="Pokemon image"
-                />
-              </div>
-            </Link>
-          );
-        })}
+
+        <section>
+          {filteredPokemons.map((pokemon) => {
+            return (
+              <PokemonCard
+                pokemon={pokemon}
+                key={pokemon.id}
+              />
+            );
+          })}
+        </section>
 
         {showButton && (
           <button onClick={() => loadMore()}>Carregar mais</button>
