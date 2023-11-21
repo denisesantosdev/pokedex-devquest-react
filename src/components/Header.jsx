@@ -12,12 +12,12 @@ export function Header() {
     setTheme(isChecked ? themes.dark : themes.light);
   })
 
-
+  useEffect(()=>{
+    localStorage.setItem('theme', isChecked)
+  })
 
   return (
     <header>
-      {console.log(isChecked)}
-      {console.log(theme)}
       <img
         src="./src/assets/logo.svg"
         alt="Pokemon logo"
