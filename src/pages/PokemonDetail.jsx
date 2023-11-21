@@ -34,12 +34,12 @@ const PokemonDetail = () => {
   useEffect(() => {
     async function fetchAbility() {
       const data = await getAbility(abilityNames);
-      console.log("data:", data);
+      //console.log("data:", data);
 
       const descriptions = data.map((item) => {
         return item.effect_entries;
       });
-      console.log(descriptions);
+      //console.log(descriptions);
     }
 
     fetchAbility();

@@ -10,6 +10,7 @@ import { getPokemons } from "./services/pokemon-service";
 import { useEffect } from "react";
 
 import { PokemonProvider } from "./contexts/context-pokemon";
+import { ThemeProvider } from "./contexts/context-theme";
 
 function App() {
   /* const [pokemons, setPokemons] = useState([]);
@@ -45,18 +46,20 @@ function App() {
   return (
     <BrowserRouter>
       <PokemonProvider>
-        <Routes>
-          <Route
-            exact
-            path="/"
-            element={<Home />}
-          />
-          <Route
-            exact
-            path="/:pokemon"
-            element={<PokemonDetail />}
-          />
-        </Routes>
+        <ThemeProvider>
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={<Home />}
+            />
+            <Route
+              exact
+              path="/:pokemon"
+              element={<PokemonDetail />}
+            />
+          </Routes>
+        </ThemeProvider>
       </PokemonProvider>
     </BrowserRouter>
   );
