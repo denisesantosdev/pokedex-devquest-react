@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
+import { useContext } from "react";
 
 import "./App.css";
 
@@ -12,41 +13,21 @@ import { useEffect } from "react";
 import { PokemonProvider } from "./contexts/context-pokemon";
 import { ThemeProvider } from "./contexts/context-theme";
 
-function App() {
-  /* const [pokemons, setPokemons] = useState([]);
-  const [pokemonLimit, setPokemonLimit] = useState(11);
+import { createGlobalStyle } from "styled-components";
+import { ThemeContext } from "./contexts/context-theme";
+import styled from "styled-components";
 
-  useEffect(() => {
-    async function fetchPokemons() {
-      const pokemonData = await getPokemons(1, pokemonLimit);
-
-      const transformedData = pokemonData.map((item) => {
-        return {
-          id: item.id,
-          abilities: item.abilities.map(ability=>{
-            return ability.ability.name
-          }),
-          moves: item.moves.map(move=>{
-            return move.move.name
-          }),
-          name: item.name,
-          types: item.types.map((type) => {
-            return type.type.name;
-          }),
-          image: item.sprites.front_default,
-        };
-      });
-
-      setPokemons(transformedData);
-    }
-
-    fetchPokemons();
-  }, [pokemonLimit]); */
+function App(props) {
+  const { theme } = useContext(ThemeContext);
 
   return (
     <BrowserRouter>
       <PokemonProvider>
         <ThemeProvider>
+          <GlobalStyle
+            {...props}
+            theme={theme}
+          />
           <Routes>
             <Route
               exact
@@ -64,5 +45,13 @@ function App() {
     </BrowserRouter>
   );
 }
+
+const GlobalStyle = createGlobalStyle`
+  * {
+    padding: 0;
+    margin: 0;
+    /* outline: 1px solid red; */
+  }
+  `;
 
 export default App;
