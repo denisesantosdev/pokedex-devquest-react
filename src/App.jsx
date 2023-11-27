@@ -51,6 +51,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: 0;
     /* outline: 1px solid red; */
+    text-transform: capitalize;
   }
   `;
 

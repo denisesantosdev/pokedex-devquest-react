@@ -6,6 +6,7 @@ export const themes = {
     backgroundColorBody: "#EFEFEF",
     textColor: "#1D1D1D",
     headerColor: "#DC0A2D",
+    btnColor: "#DC0A2D",
   },
   
   dark: {
@@ -13,6 +14,7 @@ export const themes = {
     backgroundColorBody: "#1D1D1D",
     textColor: "#EFEFEF",
     headerColor: "#333333",
+    btnColor: "#DC0A2D",
   },
 };
 

@@ -3,8 +3,10 @@ import { getAbility } from "../services/pokemon-ability-service";
 import { useContext, useEffect, useState } from "react";
 import { pokemonContext } from "../contexts/context-pokemon";
 import { Header } from "../components/header";
+import { createGlobalStyle, styled } from "styled-components";
+import { ThemeContext } from "../contexts/context-theme";
 
-const PokemonDetail = () => {
+const PokemonDetail = (props) => {
   const savedPokemon = JSON.parse(localStorage.getItem("clickedPokemon"));
 
   const { pokemon } = useParams();
@@ -12,6 +14,7 @@ const PokemonDetail = () => {
   const [clickedPokemon, setClickedPokemon] = useState([]);
 
   const { pokemons } = useContext(pokemonContext);
+  const { theme } = useContext(ThemeContext);
   //console.log("pokemons:", pokemons);
 
   useEffect(() => {
@@ -65,23 +68,36 @@ const PokemonDetail = () => {
   return (
     <>
       <Header />
-      
-      <main>
-        <div>
-          <Link to={"/"}>Voltar</Link>
+
+      <GlobalStyle
+        {...props}
+        theme={theme}
+      />
+
+      <Main
+        {...props}
+        theme={theme}>
+        <BackBtn
+          to={"/"}
+          {...props}
+          theme={theme}>
+          Voltar
+        </BackBtn>
+        <Pokemon>
           <h1>{clickedPokemon.name}</h1>
           <img
             src={clickedPokemon.image}
             alt={clickedPokemon.name}
           />
-          <div>{displayTypes()}</div>
-        </div>
-        <section>
-          <div>
+          <Types>{displayTypes()}</Types>
+        </Pokemon>
+        <PokemonDetails {...props}
+        theme={theme}>
+          <PokemonMoves>
             <h2>moves</h2>
             <ul>{displayMoves()}</ul>
-          </div>
-          <div>
+          </PokemonMoves>
+          <PokemonAbilities>
             <h2>abilities</h2>
             <ul>
               <li>
@@ -94,12 +110,95 @@ const PokemonDetail = () => {
                 </p>
               </li>
             </ul>
-          </div>
-        </section>
-      </main>
+          </PokemonAbilities>
+        </PokemonDetails>
+      </Main>
     </>
   );
 };
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color:${({ theme }) => theme.backgroundColorBody};
+  } 
+
+`;
+
+const Main = styled.main`
+  max-width: 1000px;
+  margin: auto;
+  margin-top: 3rem;
+  display: grid;
+  gap: 3rem;
+  justify-items: center;
+  padding: 1rem;
+  color: ${({ theme }) => theme.textColor};
+  position: relative;
+  
+  `;
+
+const BackBtn = styled(Link)`
+    text-decoration: none;
+    background-color: ${({ theme }) => theme.btnColor};
+    color: white;
+    font-weight: bold;
+    border-radius: 20px;
+    justify-self: start;
+    padding: .5rem 1rem;
+  `;
+
+const Pokemon = styled.div`
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  `;
+
+const Types = styled.div`
+display: flex;
+gap: 1rem;
+`;
+
+const PokemonDetails = styled.section`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: ${({ theme }) => theme.backgroundColor};
+  border-radius: 1rem;
+  `;
+
+  const PokemonMoves = styled.div`
+height: 300px;
+overflow-y: scroll;
+padding: 1rem;
+
+& h2 {
+  margin-bottom: 1rem;
+}
+
+& li {
+  display: list-item;
+  list-style-type: none;
+  padding: .5rem;
+  }
+  
+  `;
+  
+  const PokemonAbilities = styled.div`
+  height: 300px;
+  overflow-y: scroll;
+padding: 1rem;
+
+& h2 {
+  margin-bottom: 1rem;
+}
+
+  & li {
+    display: list-item;
+    list-style-type: none;
+    padding: .5rem;
+  }
+  
+  
+`;
 
 export default PokemonDetail;
 

@@ -127,7 +127,6 @@ const GlobalStyle = createGlobalStyle`
 const Main = styled.main`
   max-width: 1000px;
   margin: auto;
-  font-family: sans-serif;
   margin-top: 3rem;
   display: grid;
   `;
