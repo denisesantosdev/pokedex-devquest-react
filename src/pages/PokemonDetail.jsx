@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { pokemonContext } from "../contexts/context-pokemon";
 import { Header } from "../components/header";
 import { createGlobalStyle, styled } from "styled-components";
-import { ThemeContext } from "../contexts/context-theme";
+import { ThemeContext, pokemonTypeColors } from "../contexts/context-theme";
 
 const PokemonDetail = (props) => {
   const savedPokemon = JSON.parse(localStorage.getItem("clickedPokemon"));
@@ -53,7 +53,13 @@ const PokemonDetail = (props) => {
     //console.log(types);
 
     return types.map((item, index) => {
-      return <p key={index}>{item}</p>;
+      return (
+        <p
+          style={{ backgroundColor: `${pokemonTypeColors[item]}` }}
+          key={index}>
+          {item}
+        </p>
+      );
     });
   }
 
@@ -91,8 +97,9 @@ const PokemonDetail = (props) => {
           />
           <Types>{displayTypes()}</Types>
         </Pokemon>
-        <PokemonDetails {...props}
-        theme={theme}>
+        <PokemonDetails
+          {...props}
+          theme={theme}>
           <PokemonMoves>
             <h2>moves</h2>
             <ul>{displayMoves()}</ul>
@@ -154,8 +161,13 @@ const Pokemon = styled.div`
   `;
 
 const Types = styled.div`
-display: flex;
-gap: 1rem;
+  display: flex;
+  gap: 1rem;
+
+  & p {
+    padding: .5rem 1rem;
+    border-radius: .5rem;
+  }
 `;
 
 const PokemonDetails = styled.section`
@@ -165,7 +177,7 @@ const PokemonDetails = styled.section`
   border-radius: 1rem;
   `;
 
-  const PokemonMoves = styled.div`
+const PokemonMoves = styled.div`
 height: 300px;
 overflow-y: scroll;
 padding: 1rem;
@@ -181,8 +193,8 @@ padding: 1rem;
   }
   
   `;
-  
-  const PokemonAbilities = styled.div`
+
+const PokemonAbilities = styled.div`
   height: 300px;
   overflow-y: scroll;
 padding: 1rem;
