@@ -138,7 +138,6 @@ const GlobalStyle = createGlobalStyle`
   body {
     background-color:${({ theme }) => theme.backgroundColorBody};
   } 
-
 `;
 
 const Main = styled.main`
@@ -188,7 +187,6 @@ const PokemonDetails = styled.section`
   border-radius: 1rem;
   padding: 1rem;
 box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-
   `;
 
 const PokemonMoves = styled.div`
@@ -231,9 +229,7 @@ padding: 1rem;
     line-height: 1.4;
     font-size: .8rem;
     text-transform: initial;
-  }
-  
-  
+  }  
 `;
 
 export default PokemonDetail;
