@@ -53,6 +53,10 @@ const GlobalStyle = createGlobalStyle`
     /* outline: 1px solid red; */
     text-transform: capitalize;
   }
+
+  body {
+    font-family: sans-serif;
+  }
   `;
 
 export default App;

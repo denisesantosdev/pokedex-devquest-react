@@ -32,21 +32,33 @@ const PokemonDetail = (props) => {
   //console.log(clickedPokemon);
 
   const abilityNames = clickedPokemon.abilities || [];
+
+  const [abilities, setAbilities] = useState([]);
+  //console.log('abilityNames:', abilityNames)
+  //const abilityDescriptions = []
   //console.log("abilityNames:", abilityNames);
 
   useEffect(() => {
     async function fetchAbility() {
       const data = await getAbility(abilityNames);
-      //console.log("data:", data);
+      // console.log("data:", data);
 
-      const descriptions = data.map((item) => {
-        return item.effect_entries;
+      const transformedData = data.map((item) => {
+        return {
+          name: item.name,
+          description: item.effect_entries.filter((item) => {
+            if (item.language.name === "en") {
+              return item;
+            }
+          }),
+        };
       });
-      //console.log(descriptions);
+
+      setAbilities(transformedData);
     }
 
     fetchAbility();
-  }, [abilityNames]);
+  }, [clickedPokemon]);
 
   function displayTypes() {
     const types = clickedPokemon.types || [];
@@ -69,6 +81,18 @@ const PokemonDetail = (props) => {
     return moves.map((item, index) => {
       return <li key={index}>{item}</li>;
     });
+  }
+
+  function displayAbilities() {
+
+    return abilities.map(item=>{
+      return (
+        <>
+          <li>{item.name}</li>
+          <p>{item.description[0].effect}</p>
+        </>
+      )
+    })
   }
 
   return (
@@ -101,22 +125,15 @@ const PokemonDetail = (props) => {
           {...props}
           theme={theme}>
           <PokemonMoves>
-            <h2>moves</h2>
+            <h2>
+              {" "}
+              <span>{clickedPokemon.moves?.length}</span> moves
+            </h2>
             <ul>{displayMoves()}</ul>
           </PokemonMoves>
           <PokemonAbilities>
             <h2>abilities</h2>
-            <ul>
-              <li>
-                <h3>name</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic
-                  eum ipsum soluta a laudantium magnam porro laborum. Distinctio
-                  reiciendis quisquam enim dolor ex odio, nihil mollitia! In et
-                  ipsum exercitationem?
-                </p>
-              </li>
-            </ul>
+            <ul>{  displayAbilities()  }</ul>
           </PokemonAbilities>
         </PokemonDetails>
       </Main>
@@ -175,6 +192,7 @@ const PokemonDetails = styled.section`
   grid-template-columns: 1fr 1fr;
   background-color: ${({ theme }) => theme.backgroundColor};
   border-radius: 1rem;
+  padding: 1rem;
   `;
 
 const PokemonMoves = styled.div`
