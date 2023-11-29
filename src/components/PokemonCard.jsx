@@ -74,6 +74,7 @@ const CardHeader = styled.header`
   position: relative;
   z-index: 3;
   `;
+  
 const StyledLink = styled(Link)`
   text-decoration: none
   `;

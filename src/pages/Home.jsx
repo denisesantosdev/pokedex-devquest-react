@@ -161,7 +161,7 @@ const PokemonSection = styled.section`
 `;
 
 const LoadMoreButton = styled.button`
-  background-color: ${({ theme }) => theme.headerColor};
+  background-color: ${({ theme }) => theme.btnColor};
   color: white;
   padding: .5rem 1rem;
   border-radius: 1rem;
