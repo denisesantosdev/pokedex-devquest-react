@@ -8,7 +8,7 @@ export const themes = {
     headerColor: "#DC0A2D",
     btnColor: "#DC0A2D",
   },
-  
+
   dark: {
     backgroundColor: "#333333",
     backgroundColorBody: "#1D1D1D",
@@ -36,21 +36,17 @@ export const pokemonTypeColors = {
   dragon: "#6F35FC",
   dark: "#705746",
   steel: "#B7B7CE",
-  fairy: "#D685AD"
+  fairy: "#D685AD",
 };
 
 export const ThemeContext = createContext({});
 
 export const ThemeProvider = (props) => {
-  // console.log('savedTheme:', savedTheme)
-
   const [theme, setTheme] = useState(themes.light);
 
   const [isChecked, setIsChecked] = useState(
     JSON.parse(localStorage.getItem("theme"))
   );
-
-  //console.log('theme:', theme)
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, isChecked, setIsChecked }}>

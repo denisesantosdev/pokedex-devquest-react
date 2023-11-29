@@ -35,10 +35,8 @@ export const PokemonProvider = (props) => {
     fetchPokemons();
   }, [pokemonLimit]);
 
-  //console.log(pokemons, pokemonLimit);
-
   return (
-    <pokemonContext.Provider value={{ pokemons, pokemonLimit, setPokemonLimit }}>
+    <pokemonContext.Provider value={{ pokemons, setPokemonLimit }}>
       {props.children}
     </pokemonContext.Provider>
   );

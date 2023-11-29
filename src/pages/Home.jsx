@@ -1,26 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
 import { pokemonContext } from "../contexts/context-pokemon";
+import { ThemeContext } from "../contexts/context-theme";
+
 import { Header } from "../components/header";
 import { PokemonCard } from "../components/PokemonCard";
 
 import styled from "styled-components";
-import { ThemeContext } from "../contexts/context-theme";
 import { createGlobalStyle } from "styled-components";
 
 const Home = (props) => {
-  const { pokemons, pokemonLimit, setPokemonLimit } =
-    useContext(pokemonContext);
+  const { pokemons, setPokemonLimit } = useContext(pokemonContext);
 
   const { theme } = useContext(ThemeContext);
 
-  //console.log(pokemons, pokemonLimit);
-  const [filteredPokemons, setFilteredPokemon] = useState([]);
+  const [filteredPokemons, setFilteredPokemons] = useState([]);
   const [showButton, setShowButton] = useState(true);
 
   useEffect(() => {
-    setFilteredPokemon(pokemons);
+    setFilteredPokemons(pokemons);
   }, [pokemons]);
 
   function loadMore() {
@@ -49,21 +47,21 @@ const Home = (props) => {
       "Fairy",
     ];
 
-    const option = pokemonTypes.map((item, index) => {
-      return <option key={index}>{item}</option>;
+    const options = pokemonTypes.map((type, index) => {
+      return <option key={index}>{type}</option>;
     });
 
-    return option;
+    return options;
   }
 
   function filterType(event) {
     const selectedType = event.target.value.toLowerCase();
 
-    const filteredPokemons = pokemons.filter((item) => {
+    const filteredPokemons = pokemons.filter((pokemon) => {
       if (selectedType === "todos") {
-        return item;
+        return pokemon;
       }
-      return item.types.find((type) => type === selectedType);
+      return pokemon.types.find((type) => type === selectedType);
     });
 
     if (selectedType !== "todos") {
@@ -72,7 +70,7 @@ const Home = (props) => {
       setShowButton(true);
     }
 
-    setFilteredPokemon(filteredPokemons);
+    setFilteredPokemons(filteredPokemons);
   }
 
   return (
@@ -82,7 +80,9 @@ const Home = (props) => {
         theme={theme}
       />
       <Header />
+
       <Main>
+
         <PokemonFilter
           {...props}
           theme={theme}>
@@ -94,6 +94,7 @@ const Home = (props) => {
             {generateOptions()}
           </select>
         </PokemonFilter>
+
         <PokemonSection>
           {filteredPokemons.map((pokemon) => {
             return (
@@ -104,6 +105,7 @@ const Home = (props) => {
             );
           })}
         </PokemonSection>
+
         {showButton && (
           <LoadMoreButton
             {...props}
@@ -112,14 +114,14 @@ const Home = (props) => {
             Carregar mais
           </LoadMoreButton>
         )}
+
       </Main>
     </>
   );
 };
 
 const GlobalStyle = createGlobalStyle`
-  
-   body {
+  body {
     background-color:${({ theme }) => theme.backgroundColorBody};
   } 
   `;
@@ -147,15 +149,15 @@ const PokemonFilter = styled.div`;
     margin-left: 20px;
     font-size: 1rem;
     font-weight: bold;
-}
+  }
 `;
 
 const PokemonSection = styled.section`
-display: grid;
-justify-content:center;
-grid-template-columns: repeat(auto-fit, minmax(150px, 200px));
-gap: 1rem;
-padding: 1rem;
+  display: grid;
+  justify-content:center;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 200px));
+  gap: 1rem;
+  padding: 1rem;
 `;
 
 const LoadMoreButton = styled.button`
@@ -164,10 +166,10 @@ const LoadMoreButton = styled.button`
   padding: .5rem 1rem;
   border-radius: 1rem;
   border: none;
-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-width: fit-content;
-margin: 1rem auto;
-   cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  width: fit-content;
+  margin: 1rem auto;
+  cursor: pointer;
 `;
 
 export default Home;

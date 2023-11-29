@@ -40,23 +40,23 @@ export function Header(props) {
 }
 
 const StyledHeader = styled.header`
-background-color: ${({ theme }) => theme.headerColor};
-color: ${({ theme }) => theme.textColor};
-display: flex;
-justify-content: space-between;
-padding: 1rem;
-`;
+  background-color: ${({ theme }) => theme.headerColor};
+  color: ${({ theme }) => theme.textColor};
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  `;
 
 const Switch = styled.label`
-display: flex;
+  display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
   border-radius: 32px;
   border: 2px solid white;
   `;
-
-const Slider = styled.div`
+  
+  const Slider = styled.div`
   padding: 2px 5px;
   width: 60px;
   height: 32px;
@@ -75,13 +75,14 @@ const Slider = styled.div`
 `;
 
 const StyledInput = styled.input`
-opacity: 0;
-position: absolute;
+  opacity: 0;
+  position: absolute;
 
-&:checked + ${Slider} {
+  &:checked + ${Slider} {
   
-  &:before {
+    &:before {
     transform: translate(32px, -50%);
+    }
+    
   }
-}
 `;

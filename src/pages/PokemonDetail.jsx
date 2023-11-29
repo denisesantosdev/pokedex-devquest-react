@@ -10,12 +10,11 @@ const PokemonDetail = (props) => {
   const savedPokemon = JSON.parse(localStorage.getItem("clickedPokemon"));
 
   const { pokemon } = useParams();
-  // console.log(pokemon);
+  
   const [clickedPokemon, setClickedPokemon] = useState([]);
 
   const { pokemons } = useContext(pokemonContext);
   const { theme } = useContext(ThemeContext);
-  //console.log("pokemons:", pokemons);
 
   useEffect(() => {
     setClickedPokemon(
@@ -29,19 +28,13 @@ const PokemonDetail = (props) => {
     localStorage.setItem("clickedPokemon", JSON.stringify(clickedPokemon));
   }, [clickedPokemon]);
 
-  //console.log(clickedPokemon);
-
   const abilityNames = clickedPokemon.abilities || [];
 
   const [abilities, setAbilities] = useState([]);
-  //console.log('abilityNames:', abilityNames)
-  //const abilityDescriptions = []
-  //console.log("abilityNames:", abilityNames);
-
+  
   useEffect(() => {
     async function fetchAbility() {
       const data = await getAbility(abilityNames);
-      // console.log("data:", data);
 
       const transformedData = data.map((item) => {
         return {
@@ -62,7 +55,6 @@ const PokemonDetail = (props) => {
 
   function displayTypes() {
     const types = clickedPokemon.types || [];
-    //console.log(types);
 
     return types.map((item, index) => {
       return (
@@ -84,15 +76,14 @@ const PokemonDetail = (props) => {
   }
 
   function displayAbilities() {
-
-    return abilities.map(item=>{
+    return abilities.map((item) => {
       return (
         <>
           <li>{item.name}</li>
           <p>{item.description[0].effect}</p>
         </>
-      )
-    })
+      );
+    });
   }
 
   return (
@@ -132,8 +123,10 @@ const PokemonDetail = (props) => {
             <ul>{displayMoves()}</ul>
           </PokemonMoves>
           <PokemonAbilities>
-            <h2>abilities</h2>
-            <ul>{  displayAbilities()  }</ul>
+            <h2>
+              <span>{abilities.length}</span> abilities
+            </h2>
+            <ul>{displayAbilities()}</ul>
           </PokemonAbilities>
         </PokemonDetails>
       </Main>
@@ -184,6 +177,7 @@ const Types = styled.div`
   & p {
     padding: .5rem 1rem;
     border-radius: .5rem;
+    font-weight: bold;
   }
 `;
 
@@ -193,6 +187,8 @@ const PokemonDetails = styled.section`
   background-color: ${({ theme }) => theme.backgroundColor};
   border-radius: 1rem;
   padding: 1rem;
+box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
   `;
 
 const PokemonMoves = styled.div`
@@ -208,6 +204,7 @@ padding: 1rem;
   display: list-item;
   list-style-type: none;
   padding: .5rem;
+  font-size: .8rem;
   }
   
   `;
@@ -225,19 +222,18 @@ padding: 1rem;
     display: list-item;
     list-style-type: none;
     padding: .5rem;
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+
+  & p {
+    margin-top: 1rem;
+    line-height: 1.4;
+    font-size: .8rem;
+    text-transform: initial;
   }
   
   
 `;
 
 export default PokemonDetail;
-
-/* 
-Imagem do pokemon
-Nome
-Lista de movimentos do pokemon (moves)
-Lista de habilidades do pokemon (abilities)
-a lista de habilidades deve apresentar o nome e o texto
-descritivo da habilidade
-Tipo do pokemon (type)
-*/
