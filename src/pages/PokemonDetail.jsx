@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { getAbility } from "../services/pokemon-ability-service";
 import { useContext, useEffect, useState } from "react";
 import { pokemonContext } from "../contexts/context-pokemon";
-import { Header } from "../components/header";
+import { Header } from "../components/Header";
 import { createGlobalStyle, styled } from "styled-components";
 import { ThemeContext, pokemonTypeColors } from "../contexts/context-theme";
 
