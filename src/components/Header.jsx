@@ -22,7 +22,7 @@ export function Header(props) {
       {...props}
       theme={theme}>
       <img
-        src="public/logo.svg"
+        src="/public/logo.svg"
         alt="Pokemon logo"
       />
       <Switch>
