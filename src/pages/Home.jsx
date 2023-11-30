@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { pokemonContext } from "../contexts/context-pokemon";
 import { ThemeContext } from "../contexts/context-theme";
 
-import { Header } from "../components/header";
+import { Header } from "/src/components/header";
 import { PokemonCard } from "../components/PokemonCard";
 
 import styled from "styled-components";
