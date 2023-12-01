@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from "react";
 import { ThemeContext, themes } from "../contexts/context-theme";
 import styled from "styled-components";
 
+import pokemonLogo from '/public/logo.svg'
+
 export function Header(props) {
   const { theme, setTheme, isChecked, setIsChecked } = useContext(ThemeContext);
 
@@ -22,7 +24,7 @@ export function Header(props) {
       {...props}
       theme={theme}>
       <img
-        src="/public/logo.svg"
+        src={pokemonLogo}
         alt="Pokemon logo"
       />
       <Switch>
